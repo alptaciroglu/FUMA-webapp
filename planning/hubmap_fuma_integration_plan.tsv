@@ -1,0 +1,162 @@
+HUBMAP DATASET INTEGRATION PLAN FOR FUMA
+Generated: 2026-03-06
+Source metadata: hubmap-datasets-metadata-2026-03-06T14-19-17.tsv
+
+NOTES ON HIERARCHY
+==================
+CELLTYPE module uses a tree-multiselect widget. Each dataset is an <option> with a data-section attribute that defines its path in the tree.
+  Pattern for existing human datasets:  Tissue/Human  (e.g. "Kidney/Human")
+  Pattern for brain sub-regions:        Brain/Human/Region/Timepoint/Level  (e.g. "Brain/Human/Allocortex/Postnatal/Level1")
+  Dataset ID naming convention:         {NextID}_{Author}_{Species}_{Year}_{Tissue}_{SubRegion}_level{N}
+  Level1 = broad cell types (e.g. epithelial, immune, stromal)
+  Level2 = fine-grained subtypes (e.g. proximal tubule S1, S2, S3)
+  Each blade file = one tissue section: resources/views/celltype/celltype_options/{tissue}_options.blade.php
+
+SNP2GENE module (chromatin/ATAC data) uses a flat grouped select in bed_annot.blade.php and epi_options.blade.php.
+  epi_options.blade.php    = Roadmap Epigenomics 15-core chromatin states (E001-E129, bulk tissue, not cell-type specific)
+  bed_annot.blade.php      = Additional BED annotations grouped by source: PsychENCODE, FANTOM5, Brain Open Chromatin Atlas (BOCA)
+  HuBMAP ATAC data would form a NEW group "HuBMAP Open Chromatin" within bed_annot.blade.php
+  Each entry = one gzipped BED file of open chromatin peaks for one cell type in one tissue
+  Pattern: HuBMAP/{Tissue}_{CellType}.bed.gz
+
+ACCESS NOTE: All HuBMAP datasets listed below are "protected" (controlled access).
+  Data access must be requested via https://portal.hubmapconsortium.org before download.
+
+QUALITY FILTER APPLIED: Q30 >= 80% where available; all datasets have Published status.
+
+======================================================================================
+SECTION 1: CELLTYPE MODULE (scRNA-seq / snRNA-seq datasets)
+======================================================================================
+
+Organ	HuBMAP Assay Type(s)	N Datasets (donors)	Avg Q30	Existing in FUMA (CELLTYPE)	FUMA Status	Proposed CELLTYPE UI Location (data-section)	Proposed Blade File	Proposed Dataset ID Pattern	Notes
+
+Kidney	snRNAseq-10xGenomics-v3, snRNAseq, SNARE2-RNAseq	157	90.6%	Yes - 5 datasets (Xu_2023: CortexOfKidney, RenalMedulla, RenalPapilla, Kidney, RenalPelvis) at level1	SUPPLEMENTS existing	Kidney/Human	kidney_options.blade.php (existing)	HuBMAP_Human_2026_Kidney_{SubRegion}_level1 / _level2	Largest HuBMAP cohort. SNARE2 also yields ATAC -> see Section 2. Sub-regions to be determined from processed data cell type annotations. Both level1 (broad) and level2 (fine) annotations expected.
+
+Lung	snRNAseq-10xGenomics-v3, snRNAseq, SNARE2-RNAseq	153	91.2%	Yes - 6 datasets (Travaglini_2020, Xu_2023: Lung, LowerLobeOfLeftLung, Bronchus, UpperLobeOfLeftLung, LungParenchyma) at level1	SUPPLEMENTS existing	Lung/Human	lung_options.blade.php (existing)	HuBMAP_Human_2026_Lung_{SubRegion}_level1 / _level2	Second largest HuBMAP cohort. SNARE2 also yields ATAC -> see Section 2. HuBMAP likely adds higher donor diversity than existing datasets.
+
+Large Intestine	snRNAseq-10xGenomics-v3, snRNAseq	42	95.2%	Yes - Xu_2023 datasets cover LargeIntestine, AscendingColon, Caecum, ColonicEpithelium, DescendingColon, SigmoidColon, TransverseColon, Rectum, VermiformAppendix at level1	SUPPLEMENTS existing	Intestine/Human	intestine_options.blade.php (existing)	HuBMAP_Human_2026_LargeIntestine_{SubRegion}_level1 / _level2	HuBMAP covers colon/rectum sub-regions. Complements Xu_2023 with a different cohort and potentially finer cell type resolution.
+
+Small Intestine	snRNAseq-10xGenomics-v3, snRNAseq	39	94.9%	Yes - Xu_2023 datasets cover SmallIntestine, Duodenum, Ileum, Jejunum at level1	SUPPLEMENTS existing	Intestine/Human	intestine_options.blade.php (existing)	HuBMAP_Human_2026_SmallIntestine_{SubRegion}_level1 / _level2	High Q30. Complements Xu_2023.
+
+Heart	sciRNAseq, snRNAseq-10xGenomics-v3, snRNAseq	15	94.0%	Yes - Xu_2023 datasets cover LeftCardiacAtrium, HeartLeftVentricle, RightCardiacAtrium, HeartRightVentricle, ApexOfHeart, InterventricularSeptum at level1	SUPPLEMENTS existing	Heart/Human	heart_options.blade.php (existing)	HuBMAP_Human_2026_Heart_{SubRegion}_level1 / _level2	sciRNAseq is a combinatorial indexing method that may capture different cell type proportions. Adds cohort diversity.
+
+Bladder	snRNAseq-10xGenomics-v3	14	94.6%	NO - only MouseCellAtlas_Bladder, TabulaMuris_FACS/droplet_Bladder (mouse only)	ADDS first human dataset	Bladder/Human (NEW sub-section)	bladder_options.blade.php (existing, add Human section)	HuBMAP_Human_2026_Bladder_{SubRegion}_level1 / _level2	Currently FUMA has NO human bladder scRNA-seq. This fills a genuine gap. High Q30.
+
+Ovary	10X Multiome (RNA+ATAC)	39	N/A (Multiome - Q30 not in metadata)	NO - only MouseCellAtlas_Ovary (mouse only)	ADDS first human dataset	Ovary/Human (NEW sub-section)	ovary_options.blade.php (existing, add Human section)	HuBMAP_Human_2026_Ovary_{SubRegion}_level1 / _level2	Currently FUMA has NO human ovary scRNA-seq. Dual-use: RNA for CELLTYPE + ATAC for SNP2GENE -> see Section 2. Relevant for reproductive biology GWAS.
+
+Uterus	10X Multiome (RNA+ATAC)	36	N/A (Multiome)	NO - only MouseCellAtlas_Uterus (mouse only)	ADDS first human dataset	Uterus/Human (NEW sub-section)	uterus_options.blade.php (existing, add Human section)	HuBMAP_Human_2026_Uterus_{SubRegion}_level1 / _level2	Currently FUMA has NO human uterus scRNA-seq. Dual-use: RNA + ATAC -> see Section 2. Relevant for endometriosis, endometrial cancer GWAS.
+
+Fallopian Tube	10X Multiome (RNA+ATAC)	27	N/A (Multiome)	NO - tissue not present in FUMA at all	ADDS NEW TISSUE	FallopianTube/Human (BRAND NEW section)	fallopianTube_options.blade.php (NEW FILE)	HuBMAP_Human_2026_FallopianTube_{SubRegion}_level1 / _level2	Entirely new tissue for FUMA. Requires new blade file AND new @include entry in celltype.blade.php. Dual-use: RNA + ATAC -> see Section 2.
+
+Knee (joint)	scRNAseq-10xGenomics-v3	13	93.8%	NO - tissue not present in FUMA at all	ADDS NEW TISSUE	Knee/Human (BRAND NEW section)	knee_options.blade.php (NEW FILE)	HuBMAP_Human_2026_Knee_{SubRegion}_level1 / _level2	Entirely new tissue for FUMA. Relevant for osteoarthritis and musculoskeletal GWAS. Requires new blade file AND new @include in celltype.blade.php.
+
+Spleen	scRNAseq-10xGenomics	12	93.3%	Yes - minimal (need to check spleen_options.blade.php)	SUPPLEMENTS existing	Spleen/Human	spleen_options.blade.php (existing)	HuBMAP_Human_2026_Spleen_{SubRegion}_level1 / _level2	Immune-rich tissue. Relevant for autoimmune and haematological GWAS.
+
+Liver	scRNAseq-10xGenomics-v2	5	N/A	Yes - existing datasets present	SUPPLEMENTS existing	Liver/Human	liver_options.blade.php (existing)	HuBMAP_Human_2026_Liver_{SubRegion}_level1 / _level2	Older 10X v2 chemistry; lower sensitivity than v3. Fewer datasets. Lower priority.
+
+Lymph Node	scRNAseq-10xGenomics	3	93.6%	Yes - lymphNode_options.blade.php exists	SUPPLEMENTS existing	LymphNode/Human	lymphNode_options.blade.php (existing)	HuBMAP_Human_2026_LymphNode_{SubRegion}_level1 / _level2	Only 3 datasets - low N. Consider pooling all donors into one pseudo-bulk dataset per cell type.
+
+======================================================================================
+SECTION 2: SNP2GENE MODULE (ATAC-seq -> open chromatin BED files)
+======================================================================================
+These are derived from the same HuBMAP SNARE2 and 10X Multiome datasets that also contribute to CELLTYPE.
+After cell type clustering, open chromatin peaks are called per cell type and exported as BED files.
+These BED files slot into bed_annot.blade.php under a new "HuBMAP Open Chromatin" group.
+Analogous to the existing "Brain Open Chromatin Atlas (BOCA)" group which has neuron/glia BED files per brain region.
+
+Organ	HuBMAP Assay Type	N Datasets	SNP2GENE UI Location (bed_annot.blade.php)	Proposed Group Header	Proposed BED Entry Pattern	Notes
+
+Kidney	SNARE2-RNAseq (paired ATAC)	113	bed_annot.blade.php -> NEW group "HuBMAP Open Chromatin - Kidney"	HuBMAP Open Chromatin - Kidney (N)	HuBMAP/Kidney_{CellType}.bed.gz	Cell-type-specific open chromatin peaks called from SNARE2 ATAC modality. Number of BED files = number of distinct cell types identified after clustering. Will complement existing Roadmap E086 (Fetal Kidney, bulk).
+
+Lung	SNARE2-RNAseq (paired ATAC)	109	bed_annot.blade.php -> NEW group "HuBMAP Open Chromatin - Lung"	HuBMAP Open Chromatin - Lung (N)	HuBMAP/Lung_{CellType}.bed.gz	Cell-type-specific peaks from SNARE2 ATAC. Complements existing Roadmap E096 (Lung, bulk) and E088 (Fetal Lung, bulk) in epi_options.
+
+Ovary	10X Multiome (paired ATAC)	39	bed_annot.blade.php -> NEW group "HuBMAP Open Chromatin - Ovary"	HuBMAP Open Chromatin - Ovary (N)	HuBMAP/Ovary_{CellType}.bed.gz	Cell-type-specific peaks from Multiome ATAC. Only existing Roadmap ovary entry is E097 (bulk). This would be the first cell-type-resolved ovary chromatin data in FUMA.
+
+Uterus	10X Multiome (paired ATAC)	36	bed_annot.blade.php -> NEW group "HuBMAP Open Chromatin - Uterus"	HuBMAP Open Chromatin - Uterus (N)	HuBMAP/Uterus_{CellType}.bed.gz	No existing uterus chromatin annotation in FUMA. First addition.
+
+Fallopian Tube	10X Multiome (paired ATAC)	27	bed_annot.blade.php -> NEW group "HuBMAP Open Chromatin - Fallopian Tube"	HuBMAP Open Chromatin - Fallopian Tube (N)	HuBMAP/FallopianTube_{CellType}.bed.gz	No existing fallopian tube annotation anywhere in FUMA. Entirely new.
+
+Kidney (Multiome)	10X Multiome (paired ATAC)	19	bed_annot.blade.php -> merged with SNARE2 Kidney group above	(merged)	HuBMAP/Kidney_{CellType}.bed.gz	Can be pooled with SNARE2 Kidney ATAC or kept separate - decision needed.
+
+======================================================================================
+SECTION 3: CODE CHANGES REQUIRED (WEBAPP SIDE)
+======================================================================================
+
+Change Type	File(s) to Modify	Description
+
+Add human datasets to existing blade (CELLTYPE)	resources/views/celltype/celltype_options/kidney_options.blade.php	Add <option> entries under Kidney/Human for each processed HuBMAP kidney dataset
+
+Add human datasets to existing blade (CELLTYPE)	resources/views/celltype/celltype_options/lung_options.blade.php	Add <option> entries under Lung/Human
+
+Add human datasets to existing blade (CELLTYPE)	resources/views/celltype/celltype_options/intestine_options.blade.php	Add <option> entries under Intestine/Human for large and small intestine sub-regions
+
+Add human datasets to existing blade (CELLTYPE)	resources/views/celltype/celltype_options/heart_options.blade.php	Add <option> entries under Heart/Human
+
+Add human datasets to existing blade (CELLTYPE)	resources/views/celltype/celltype_options/bladder_options.blade.php	Add new Bladder/Human sub-section with <option> entries (currently mouse-only)
+
+Add human datasets to existing blade (CELLTYPE)	resources/views/celltype/celltype_options/ovary_options.blade.php	Add new Ovary/Human sub-section (currently mouse-only)
+
+Add human datasets to existing blade (CELLTYPE)	resources/views/celltype/celltype_options/uterus_options.blade.php	Add new Uterus/Human sub-section (currently mouse-only)
+
+Add human datasets to existing blade (CELLTYPE)	resources/views/celltype/celltype_options/spleen_options.blade.php	Add <option> entries under Spleen/Human
+
+Add human datasets to existing blade (CELLTYPE)	resources/views/celltype/celltype_options/liver_options.blade.php	Add <option> entries under Liver/Human
+
+Add human datasets to existing blade (CELLTYPE)	resources/views/celltype/celltype_options/lymphNode_options.blade.php	Add <option> entries under LymphNode/Human
+
+Create NEW blade file (CELLTYPE)	resources/views/celltype/celltype_options/fallopianTube_options.blade.php (NEW)	New blade file for Fallopian Tube datasets under FallopianTube/Human
+
+Create NEW blade file (CELLTYPE)	resources/views/celltype/celltype_options/knee_options.blade.php (NEW)	New blade file for Knee datasets under Knee/Human
+
+Register new blade files (CELLTYPE)	resources/views/pages/celltype.blade.php	Add @include statements for fallopianTube_options and knee_options in alphabetical order
+
+Add BED annotation group (SNP2GENE)	resources/views/snp2gene/bed_annot.blade.php	Add new <option class="level1"> group "HuBMAP Open Chromatin" with <option class="level2"> entries per tissue/cell-type BED file
+
+Place processed data files on server	Reference data directory (config app.ref_data_on_host_path)/celltype/	Each processed dataset = one .txt file (GENE x CellType expression matrix with Average column) for MAGMA --gene-covar
+
+Place BED files on server	Reference data directory/annot_bed/HuBMAP/	One .bed.gz per cell type per tissue for SNP2GENE annotation
+
+======================================================================================
+SECTION 4: DATA PROCESSING PIPELINE REQUIRED (BEFORE WEBAPP CHANGES)
+======================================================================================
+
+Step	Tool/Method	Input	Output	Notes
+
+1. Apply for HuBMAP data access	HuBMAP data portal	Consortium application	Data access approval	All datasets are "protected". Required before any download.
+
+2. Download raw data	HuBMAP portal / Globus	Per-dataset FASTQ or processed h5ad/loom files	Raw count matrices per dataset	Prefer downloading already-processed h5ad (Scanpy AnnData) files if available to skip alignment
+
+3. Pool donors per tissue	Python (scanpy/anndata)	Multiple h5ad files per tissue	Single merged AnnData object per tissue	Concatenate all donors; retain donor ID as batch covariate
+
+4. Quality control	scanpy	Merged AnnData	QC-filtered AnnData	Filter low-quality cells: min genes, max % mitochondrial reads, doublet removal
+
+5. Normalise and cluster	scanpy	QC-filtered AnnData	Clustered AnnData with cell type labels	Normalize to 10k counts, log1p, PCA, UMAP, Leiden clustering; annotate cell types
+
+6. Compute per-cell-type expression	R (data.table)	Clustered AnnData exported to TSV	MAGMA-format .txt file (GENE x CellType + Average)	Average log-normalised expression per gene per cell type; must be non-negative; shift by minimum
+
+7. Map genes to Ensembl IDs (GRCh37)	R (biomaRt)	Gene symbols or Ensembl v38 IDs from AnnData	GRCh37/hg19 Ensembl gene IDs	FUMA uses GRCh37 (hg19) Ensembl v92 by default; liftover required if data uses hg38 gene coords
+
+8. (ATAC only) Call peaks per cell type	MACS2 or ArchR	Per-cell-type ATAC fragments	Per-cell-type peak BED file	For SNARE2 and Multiome datasets only; merge peaks across donors first
+
+9. (ATAC only) Liftover to hg19	UCSC liftOver	hg38 BED files	hg19 BED files	All FUMA genomic coordinates are hg19; HuBMAP data is aligned to hg38
+
+10. (ATAC only) Compress and index	bgzip + tabix	hg19 BED files	.bed.gz files	Required format for FUMA BED annotation storage
+
+======================================================================================
+PRIORITISATION RECOMMENDATION
+======================================================================================
+
+Priority	Organ	Rationale
+
+1 (Highest)	Bladder	First human scRNA-seq for this tissue in FUMA. High Q30 (94.6%). No competing datasets. RNA only (simpler pipeline).
+1 (Highest)	Ovary	First human scRNA-seq in FUMA. Dual-use (RNA + ATAC). Relevant for reproductive/hormonal GWAS. Large N=39 donors.
+1 (Highest)	Uterus	First human scRNA-seq in FUMA. Dual-use. Relevant for endometriosis GWAS. Large N=36 donors.
+1 (Highest)	Fallopian Tube	Entirely new tissue. Dual-use. Same donors as Ovary/Uterus Multiome -> likely same data access request.
+2	Knee	Entirely new tissue. Relevant for osteoarthritis GWAS. RNA only (simpler).
+2	Kidney	Large N, high quality, dual-use ATAC. But already has Xu_2023 data in FUMA.
+2	Lung	Large N, dual-use ATAC. But already has Travaglini_2020 and Xu_2023 in FUMA.
+3	Large/Small Intestine	Supplements already well-covered Xu_2023 intestine datasets.
+3	Heart	Supplements Xu_2023 cardiac datasets.
+3	Spleen	Moderate N, supplements existing.
+4	Lymph Node	Only 3 datasets - low statistical power for pseudo-bulk. Lower priority.
+4	Liver	Older 10X v2 chemistry, Q30 missing, fewest datasets.
