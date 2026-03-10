@@ -19,3 +19,8 @@ yarn-error.log
 /.idea
 /.vscode
 .cache
+.Rproj.user
+.DS_Store
+.Rhistory
+*.Rproj
+planning/data/
