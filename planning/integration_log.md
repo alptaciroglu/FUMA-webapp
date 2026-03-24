@@ -36,7 +36,7 @@ Detailed notes on what needs updating (eQTL, chromatin, MAGMA, etc.) are on Noti
 
 | Date | Dataset | Tissue | Source | Status |
 |---|---|---|---|---|
-| 2026-03-09 | Santo et al. 2025 (GUDMAP) | Human Bladder | CellxGene | In progress |
+| 2026-03-09 | Santo et al. 2025 (GUDMAP) | Human Bladder | CellxGene | Processed, output verified (2026-03-24) |
 
 ### 2026-03-09: Human Bladder (GUDMAP/Santo et al. 2025)
 
@@ -62,14 +62,22 @@ Detailed notes on what needs updating (eQTL, chromatin, MAGMA, etc.) are on Noti
 - [x] Created README under planning/data/GUDMAP/
 - [x] Confirmed no existing preprocessing script in FUMA repo
 - [x] Reviewed Tanya's preprocessing pipeline (scrnaseq_viewer repo)
-- [x] Wrote preprocessing script aligned with Tanya's pipeline (planning/scripts/h5ad_to_magma.py)
+- [x] Cloned Tanya's pipeline to planning/scripts/tanya_pipeline/ (compute_sumstat_magma.py, helper functions, gene_names_human.txt)
 - [x] Updated workflow docs with Tanya's instructions and priorities
-- [ ] Run preprocessing: Stage 1 (QC) and Stage 2 (MAGMA output)
-- [ ] QC review of output
+- [x] Downloaded 876 example celltype files from fuma.ctglab.nl/downloadPage to downloads/celltype/
+- [x] Verified example file format: GENE (Ensembl) | cell_type_1 | ... | Average, ~24750 genes, tab-delimited
+- [x] Wrote per-dataset QC script following Tanya's pattern (qc_scrna_Santo_2025_Bladder.py)
+- [x] Ran QC: 29,834 cells merged -> 22,284 after filtering (MT<10%), 24 cell types, 22,839 genes
+- [x] Ran compute_sumstat_magma.py -> means + specificity TSVs
+- [x] Compared output against FUMA examples: format, gene count (~22k), value ranges all match
+- [x] Created placeholder FUMA-named file: `XXX_Santo_Human_2025_Bladder_Bladder_level1.txt` (ID TBD from Tanya)
+- [x] Copied to shared output folder: `planning/data/fuma_celltype_output/`
+- [x] Set up Snakemake workflow (Snakefile + config.json) for reproducible Stage 2 processing
 - [ ] Test with FUMA Celltype command line (github.com/tanyaphung/FUMA_Celltype_cmd)
 - [ ] Register dataset in blade file (bladder_options.blade.php)
 - [ ] Create PR to vufuma/FUMA-webapp
-- [ ] Tanya deploys processed data to server
+- [ ] Verify on local FUMA server (setup target: before end of May)
+- [ ] Send processed data to Tanya (only after local verification)
 
 ### Notes
 - HuBMAP bladder data was tried first but is behind controlled access (dbGaP request pending via supervisor)
@@ -79,6 +87,17 @@ Detailed notes on what needs updating (eQTL, chromatin, MAGMA, etc.) are on Noti
 - Spatial transcriptomics (brain) and case/control data are next priorities after bladder demo
 - For case/control data, check Doug/Emil AD paper for the separate MAGMA command used
 - Follow up with Doug on the scatter plot methodology (gene selection decisions)
+- 876 example celltype files downloaded (matches all blade-registered datasets). Format confirmed:
+  GENE | cell_type columns | Average. Values: log2(CPM+1), tab-delimited, ~24750 genes per file.
+- Tanya sharing preprocessing metadata docs (week of 2026-03-23) — metadata needed for publishing
+- 2TB hard drive ordered ~2026-03-23 for Tanya's reference file transfer
+- Switched from custom h5ad_to_magma.py to Tanya's actual pipeline code (consistency > convenience)
+- CellxGene gotcha: adata.X is pre-normalised; must use adata.raw.X for raw counts
+- CellxGene gotcha: var index has Ensembl IDs already, so symbol conversion is skipped.
+  But must still filter genes against gene_names_human.txt to match the implicit filtering
+  in Tanya's conversion step (otherwise ~31k genes including lncRNAs vs expected ~20-25k).
+- anndata.concat drops var columns when they differ across files; save var metadata before merge
+- anndata.read() deprecated in newer versions; use anndata.read_h5ad()
 
 ---
 

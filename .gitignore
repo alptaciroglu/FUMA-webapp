@@ -24,3 +24,5 @@ yarn-error.log
 .Rhistory
 *.Rproj
 planning/data/
+downloads/
+planning/scripts/tanya_pipeline/gene_names_human.txt

@@ -1,0 +1,11 @@
+{
+  "outdir": "../../data/fuma_celltype_output",
+  "datasets": [
+    {
+      "id": "Santo_Human_2025_Bladder",
+      "h5ad": "../../data/GUDMAP/Santo_Human_2025_Bladder/Santo_Human_2025_Bladder.h5ad",
+      "fuma_name": "XXX_Santo_Human_2025_Bladder_Bladder",
+      "levels": [1]
+    }
+  ]
+}

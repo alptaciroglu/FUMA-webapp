@@ -1,0 +1,74 @@
+# =============================================================================
+# FUMA Celltype Data Integration Pipeline (Snakemake)
+# =============================================================================
+#
+# Adapted from Tanya Phung's compute_sumstat_magma.smk for our local setup.
+# Original: github.com/tanyaphung/scrnaseq_viewer/code/postprocessing/
+#
+# Runs compute_sumstat_magma.py for each dataset x level combination,
+# then copies the means TSV to the shared output folder with FUMA naming.
+#
+# Configuration: edit config.json in the same directory.
+#
+# Usage:
+#   cd planning/scripts/tanya_pipeline
+#   snakemake --configfile config.json -c1
+#
+# config.json format:
+# {
+#   "outdir": "../../data/fuma_celltype_output",
+#   "datasets": [
+#     {
+#       "id": "Santo_Human_2025_Bladder",
+#       "h5ad": "../../data/GUDMAP/Santo_Human_2025_Bladder/Santo_Human_2025_Bladder.h5ad",
+#       "fuma_name": "XXX_Santo_Human_2025_Bladder_Bladder",
+#       "levels": [1]
+#     }
+#   ]
+# }
+# =============================================================================
+
+import os
+
+SCRIPT_DIR = os.path.dirname(workflow.snakefile)
+OUTDIR = config.get("outdir", "../../data/fuma_celltype_output")
+
+# Build all targets from config
+all_fuma_files = []
+# Also build a lookup: (fuma_name, level) -> (dataset_id, h5ad)
+LOOKUP = {}
+
+for ds in config["datasets"]:
+    for level in ds["levels"]:
+        fuma_file = os.path.join(OUTDIR, f"{ds['fuma_name']}_level{level}.txt")
+        all_fuma_files.append(fuma_file)
+        LOOKUP[(ds["fuma_name"], str(level))] = {
+            "id": ds["id"],
+            "h5ad": ds["h5ad"],
+        }
+
+rule all:
+    input:
+        all_fuma_files
+
+rule compute_and_rename:
+    """Run compute_sumstat_magma.py for one level and rename output to FUMA convention."""
+    input:
+        h5ad = lambda wc: LOOKUP[(wc.fuma_name, wc.level)]["h5ad"]
+    output:
+        os.path.join(OUTDIR, "{fuma_name}_level{level}.txt")
+    params:
+        script = os.path.join(SCRIPT_DIR, "compute_sumstat_magma.py"),
+        ct_colname = lambda wc: f"cell_type_level_{wc.level}",
+        dataset_id = lambda wc: LOOKUP[(wc.fuma_name, wc.level)]["id"],
+        intermediate = lambda wc: f"intermediate/{LOOKUP[(wc.fuma_name, wc.level)]['id']}"
+    shell:
+        """
+        mkdir -p {params.intermediate}/cell_type_level_{wildcards.level}
+        python3 {params.script} \
+            --h5ad {input.h5ad} \
+            --outdir {params.intermediate} \
+            --ct_colname {params.ct_colname}
+        mkdir -p $(dirname {output})
+        cp {params.intermediate}/{params.ct_colname}/means_cell_log_counts_pM.tsv {output}
+        """

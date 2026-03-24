@@ -12,16 +12,36 @@ Generated from sessions: 2026-03-06, updated 2026-03-09
 
 ## Step-by-step integration plan
 
-| Step | Who does it | Notes |
-|---|---|---|
-| 1. Identify exact datasets/accessions | Alp | Check databases: CellxGene, UCSC Cell Browser, DISCO v1.0, HuBMAP |
-| 2. Download raw or processed count matrices | Alp | See Data Access section below for strategy |
-| 3. Preprocess: QC filter, gene conversion | Alp/Claude | Stage 1 of h5ad_to_magma.py or Tanya's per-dataset QC scripts |
-| 4. Generate MAGMA-format output | Alp/Claude | Stage 2 of h5ad_to_magma.py (CPM normalise -> log2 -> pseudo-bulk) |
-| 5. Test with FUMA Celltype on command line | Alp | Use github.com/tanyaphung/FUMA_Celltype_cmd |
-| 6. Register dataset in FUMA (blade file entry) | Claude | Pure code change in celltype_options blade files |
-| 7. Create PR to vufuma/FUMA-webapp | Alp/Claude | Tanya reviews and makes live |
-| 8. Place processed data on server reference path | Tanya | Tanya adds to reference database (await her detailed instructions) |
+For each new dataset, follow these steps in order. Do not skip any.
+
+| Step | Who | What | Details |
+|---|---|---|---|
+| 1. Identify dataset | Alp | Find dataset + accession | Check CellxGene, UCSC Cell Browser, DISCO v1.0, HuBMAP. Cross-ref existing 876 FUMA datasets + Tanya's 31 new datasets to avoid duplicates. |
+| 2. Download data | Alp | Get h5ad / count matrices | See Data Access section below. |
+| 3. Write QC script | Claude | Per-dataset QC script | Follow Tanya's pattern (see `planning/scripts/tanya_pipeline/`). One script per dataset. |
+| 4. Run QC (Stage 1) | Alp/Claude | QC filter, gene conversion | Output: clean h5ad with `ensembl` column + log.txt + table2.csv + table3.csv. |
+| 5. Run MAGMA (Stage 2) | Alp/Claude | `compute_sumstat_magma.py` | Output: `means_cell_log_counts_pM.tsv` + `spec_cell_log_counts_pM.tsv`. |
+| 6. Verify output | Alp/Claude | Compare against FUMA examples | Check: gene count (~20-25k), value range ([0, ~16]), GENE col, Average col, no NAs/negatives. |
+| **7. Rename output** | **Alp/Claude** | **Rename means TSV to FUMA convention** | **`{ID}_{Author}_{Species}_{Year}_{Tissue}_{SubRegion}_level{N}.txt` — see naming section below. This is easy to forget!** |
+| 8. Test locally | Alp | Test with FUMA Celltype CLI | Use github.com/tanyaphung/FUMA_Celltype_cmd (after local FUMA setup). |
+| 9. Register in blade | Claude | Add `<option>` to blade file | `value` must exactly match the `.txt` filename from step 7. |
+| 10. Create PR | Alp/Claude | PR to vufuma/FUMA-webapp | Code only (blade file). No data files in git. |
+| 11. Send data to Tanya | Alp | Slack or email | Only after verifying on local FUMA. Include: renamed .txt file + metadata (await Tanya's docs). |
+| 12. Tanya deploys | Tanya | Places data on server | File goes to `/data/MAGMA/celltype/{dataset_name}.txt`. |
+
+### Gotchas learned during bladder dataset (2026-03-24)
+
+These are easy to miss. Check each one when processing a new dataset:
+
+- **CellxGene raw counts**: `adata.X` is pre-normalised. Use `adata.raw.X.copy()` for raw integer counts.
+- **Gene filtering for CellxGene data**: Ensembl IDs are already in the var index, so symbol conversion
+  is skipped. But you MUST still filter genes against `gene_names_human.txt` to match the implicit
+  filtering in Tanya's conversion step. Without this you get ~31k genes (including lncRNAs) instead of ~20-25k.
+- **anndata.concat drops var columns**: Save var metadata from the first file before merging.
+- **anndata.read() is deprecated**: Use `anndata.read_h5ad()`.
+- **compute_sumstat_magma.py output dir**: Script writes to `{outdir}/{ct_colname}/` — create this directory first.
+- **Renaming**: `means_cell_log_counts_pM.tsv` is NOT the final filename. It must be renamed
+  to the FUMA convention (step 7) before sending to Tanya or registering in the blade file.
 
 ## Data priorities (from Tanya, 2026-03-09)
 
@@ -55,15 +75,30 @@ Tab-delimited .tsv file placed at: `{ref_data_path}/celltype/{dataset_name}.txt`
 
 ## Dataset naming convention
 
-Pattern: `{NextID}_{Author}_{Species}_{Year}_{Tissue}_{SubRegion}_level{N}`
+Pattern: `{ID}_{Author}_{Species}_{Year}_{Tissue}_{SubRegion}_level{N}`
+
+- **ID**: Numeric identifier. Existing FUMA datasets go up to 595. Some older datasets have no numeric
+  prefix (e.g. `MouseCellAtlas_Bladder`, `TabulaMuris_FACS_Bladder`). ID assignment likely handled by
+  Tanya — confirm with her metadata documentation (expected week of 2026-03-23). Use `XXX` as placeholder
+  until ID is assigned.
+- **Author**: First author surname (e.g. `Santo`, `Xu`, `Siletti`)
+- **Species**: `Human` or `Mouse`
+- **Year**: Publication year
+- **Tissue / SubRegion**: Anatomical location (e.g. `Bladder_Bladder`, `Kidney_CortexOfKidney`)
+- **level{N}**: Cell type hierarchy depth
+  - Level1 = broad cell types (e.g. epithelial, immune, stromal)
+  - Level2 = fine-grained subtypes (e.g. proximal tubule S1, S2, S3)
+  - Level3 = cluster-level (if available)
 
 Examples from existing FUMA datasets:
 - `563_Xu_Human_2023_Kidney_CortexOfKidney_level1`
-- `540_Travaglini_2020_Lung_level1`
+- `540_Travaglini_Human_2020_Lung_level1`
 - `443_Braun2023_Human_2023_FirstTrimester_Brain_CarnegieStage18_level1`
+- `3_Gabitto_MTG_Human_2023_level1` (no SubRegion, MTG is the tissue)
 
-Level1 = broad cell types (e.g. epithelial, immune, stromal)
-Level2 = fine-grained subtypes (e.g. proximal tubule S1, S2, S3)
+**How to rename**: Copy `means_cell_log_counts_pM.tsv` to `{name}.txt`. The `.txt` extension is
+required (not `.tsv`). The specificity file (`spec_cell_log_counts_pM.tsv`) is kept as-is for reference
+but is not deployed to the FUMA server (only the means file is used by MAGMA).
 
 ## UI registration (blade file)
 
@@ -77,6 +112,21 @@ Santo_Human_2025_Bladder_Bladder_level2</option>
 
 The `data-section` attribute defines the tree path shown to users in the UI.
 New tissues also need a new `@include` line added to `resources/views/pages/celltype.blade.php`.
+
+## Verified: what needs to change when adding a dataset
+
+**Code change (goes in PR):** Only the blade file. The rest of the system is dynamic:
+
+- `CellController.php` — receives dataset names from the form, passes them through. No hardcoded dataset list.
+- `magma_celltype.R` — reads dataset names from job parameters (`params.config`), not from any static config.
+- `celltype.js` — UI logic only, no dataset-specific references.
+- Database — the old `celltype` table was dropped (migration `2023_06_15_133548`). No dataset metadata stored in DB.
+
+**Data file (sent to Tanya):** The `.txt` file at `/data/MAGMA/celltype/{dataset_name}.txt` on the server (mounted into Docker as `/data`).
+
+**Critical link:** The `value` attribute in the blade `<option>` must exactly match the `.txt` filename on the server. This is the only connection between the code and the data.
+
+*Verified 2026-03-10 by reading CellController.php, magma_celltype.R, celltype.js, and database migrations.*
 
 ## PR and deployment workflow
 
@@ -161,38 +211,62 @@ Tanya Phung's established pipeline (github.com/tanyaphung/scrnaseq_viewer):
    - `means_cell_log_counts_pM.tsv` — expression levels (this is the MAGMA input)
    - `spec_cell_log_counts_pM.tsv` — specificity values
 
-### Our script
+### Our local copy
 
-`planning/scripts/h5ad_to_magma.py` — follows Tanya's pipeline, adapted for CellxGene h5ad
-files which already have Ensembl IDs in the var index (skipping symbol-to-Ensembl conversion).
+All of Tanya's pipeline code is cloned to `planning/scripts/tanya_pipeline/`:
 
-For non-CellxGene data or data without Ensembl IDs, use Tanya's helper functions:
-- `single_cell_helper_functions_v3.py` → `add_gene_names_human()` / `add_gene_names_mouse()`
-- Requires `gene_names_human.txt` from genenames.org
+| File | Purpose |
+|---|---|
+| `compute_sumstat_magma.py` | Stage 2: CPM normalise -> log2 -> means per cell type -> TSV (Tanya's code, only change: `anndata.read` -> `anndata.read_h5ad`) |
+| `compute_sumstat_magma.smk` | Snakemake workflow for batch processing (reference only) |
+| `single_cell_helper_functions_v3.py` | Gene symbol -> Ensembl conversion + mouse -> human homolog mapping |
+| `gene_names_human.txt` | HGNC gene name reference (from Tanya's repo, originally genenames.org) |
+| `fumacelltype_datasets_master.csv` | Master list of all 388 FUMA celltype datasets with IDs, levels, cell counts |
+| `scrna_fumacelltype_master.csv` | Detailed metadata per dataset (tissue, author, year, cell count, PMID) |
+| `scRNAseq_categorized_by_brain_regions.csv` | Brain region categorisation for brain datasets |
+| `scrna_env.yml` | Conda environment spec (reference for dependency versions) |
+| `Snakefile` | **Our Snakemake workflow**: runs Stage 2 for all levels, renames output to FUMA convention (adapted from `compute_sumstat_magma.smk`) |
+| `config.json` | Dataset definitions for Snakefile (id, h5ad path, fuma_name, levels) |
+| `qc_scrna_*.py` | Per-dataset QC scripts (Stage 1) — one per dataset, following Tanya's pattern |
 
 ### Usage
 
 ```bash
-# Stage 1: QC and merge CellxGene h5ad files
-python3 planning/scripts/h5ad_to_magma.py qc \
-  --input planning/data/GUDMAP/*.h5ad \
-  --output planning/data/GUDMAP/clean_merged.h5ad \
-  --cell_type_col author_cell_type
+# Stage 1: Run per-dataset QC script (writes clean h5ad + log + tables)
+python3 planning/scripts/tanya_pipeline/qc_scrna_Santo_2025_Bladder.py \
+  planning/data/GUDMAP Santo_Human_2025_Bladder
 
-# Stage 2: Generate MAGMA-format output
-python3 planning/scripts/h5ad_to_magma.py magma \
-  --input planning/data/GUDMAP/clean_merged.h5ad \
-  --outdir planning/data/GUDMAP/output/ \
-  --cell_type_col author_cell_type \
-  --dataset_name Santo_Human_2025_Bladder_level2
+# Stage 2 + rename: Run Snakemake (handles all datasets x levels from config.json)
+cd planning/scripts/tanya_pipeline
+snakemake --configfile config.json -c1
 ```
 
+The Snakefile reads `config.json` which lists every dataset with its h5ad path, FUMA name,
+and cell type levels. It runs `compute_sumstat_magma.py` for each dataset x level, then
+copies the output to `planning/data/fuma_celltype_output/` with FUMA-convention filenames.
+
+For a dataset with 2 levels, set `"levels": [1, 2]` in `config.json`. The QC script must
+create both `cell_type_level_1` and `cell_type_level_2` columns in obs.
+
+### Shared output folder
+
+All finalised FUMA celltype files are collected in `planning/data/fuma_celltype_output/`.
+This is the folder to send to Tanya — one folder with all processed datasets.
+The Snakefile writes directly to this folder (configured via `outdir` in `config.json`).
+
+### Cell type level conventions (from fumacelltype_datasets_master.csv)
+
+- 164 datasets have 1 level, 185 have 2, 39 have 3
+- Level count depends on what the original study authors annotated
+- Datasets with 3 levels only publish levels 1+2 to FUMA (never level 3)
+- Do not construct levels that the original authors didn't define
+
 ### QC of output
-- Compare gene count against expected ~20k protein-coding genes
-- Check expression distribution per cell type (min/median/max reported by script)
-- Verify no NA or negative values (reported by script)
-- Check low-expression filter rate (reported by script)
-- Compare structure against existing FUMA celltype files on server
+- Compare gene count against expected ~20-25k (existing FUMA datasets range from ~15k to ~25k)
+- Value range should be [0, ~16] (log2 CPM+1 scale)
+- Verify: GENE column (Ensembl IDs), cell type columns, Average column, tab-delimited
+- No NAs, no negative values, zeros expected for low-expression filtered entries
+- Compare against example files in `downloads/celltype/`
 - Test with FUMA Celltype command line tool (github.com/tanyaphung/FUMA_Celltype_cmd)
 
 ---
@@ -215,8 +289,19 @@ FUMA UI location:
 
 ## Timeline and coordination
 
-- Tanya is working on a big FUMA update, unavailable until early May 2026
-- FUMA update goes live early May; Tanya available for meetings after that
+- Tanya is working on FUMA v2.0, unavailable until ~end of May 2026
+- FUMA v2.0 goes live ~end of May; Tanya available to help with local install after that
 - **Meeting scheduled: 20 May 2026, 10am** — Tanya walks through local FUMA installation
-- Until then: process data, test with FUMA Celltype command line, document everything
-- Tanya will provide detailed instructions on adding processed data to the server
+- Until then: process data, download example files to verify format, document everything
+- Tanya will share preprocessing metadata documentation (week of 2026-03-23)
+- **2TB external hard drive ordered** (~March 23, 1-2 week delivery) — Tanya will copy reference files to it
+- **Local FUMA server setup target: before end of May** — Tanya shared Windows install guide (`How_to_install_FUMA_locally.pdf`), needs macOS adaptation. Document the macOS process (Tanya's request).
+- **Only send processed data to Tanya after verifying on local FUMA server**
+- When ready to share: message Tanya on Slack or email
+
+## Resources from Tanya (updated 2026-03-23)
+
+- Preprocessing code: github.com/tanyaphung/scrnaseq_viewer/tree/main/code/preprocessing
+- FUMA contributing docs: fuma-docs.readthedocs.io/en/latest/contributing.html
+- Example single-cell data files: fuma.ctglab.nl/downloadPage (scroll to bottom)
+- Local FUMA install guide (Windows): `How_to_install_FUMA_locally.pdf` (shared on Slack)

@@ -1,0 +1,106 @@
+brain_region,dataset
+Cerebral cortex - Primary motor cortex,7_Siletti_CerebralCortex.PrCG.M1C_Human_2022
+Cerebral cortex - Dorsolateral prefrontal cortex,33_Siletti_CerebralCortex.MFG.A46_Human_2022
+Cerebral cortex - Ventrolateral prefrontal cortex,16_Siletti_CerebralCortex.IFG.A44-A45_Human_2022
+Cerebral cortex - Orbital frontal cortex,24_Siletti_CerebralCortex.POrG.A13_Human_2022
+Cerebral cortex - Orbital frontal cortex,40_Siletti_CerebralCortex.ReG.A14_Human_2022
+Cerebral cortex - Primary somatosensory cortex,17_Siletti_CerebralCortex.PoCG.S1C_Human_2022
+Cerebral cortex - Parietal cortex,10_Siletti_CerebralCortex.PaO.A43_Human_2022
+Cerebral cortex - Parietal cortex,14_Siletti_CerebralCortex.SMG_Human_2022
+Cerebral cortex - Parietal cortex,22_Siletti_CerebralCortex.SPL.A5-A7_Human_2022
+Cerebral cortex - Primary auditory cortex,27_Siletti_CerebralCortex.TTG.A1C_Human_2022
+Cerebral cortex - Temporal cortex,19_Siletti_CerebralCortex.TP.A38_Human_2022
+Cerebral cortex - Primary visual cortex,26_Siletti_CerebralCortex.LiG.V1C_Human_2022
+Cerebral cortex - Occipital cortex,29_Siletti_CerebralCortex.V2_Human_2022
+Cerebral cortex - Occipital cortex,36_Siletti_CerebralCortex.Pro_Human_2022
+Cerebral cortex - Cingulate cortex,18_Siletti_CerebralCortex.SCG.A25_Human_2022 
+Cerebral cortex - Cingulate cortex,21_Siletti_CerebralCortex.CgGC.A23_Human_2022
+Cerebral cortex - Cingulate cortex,30_Siletti_CerebralCortex.ACC_Human_2022
+Cerebral cortex - Cingulate cortex,37_Siletti_CerebralCortex.RoG.A32_Human_2022
+Cerebral cortex - Insular cortex,13_Siletti_CerebralCortex.LIG.Idg_Human_2022
+Cerebral cortex - Insular cortex,15_Siletti_CerebralCortex.Ig_Human_2022
+Cerebral cortex - Allocortex,20_Siletti_CerebralCortex.Pir_Human_2022
+Cerebral cortex - Allocortex,32_Siletti_CerebralCortex.AON_Human_2022
+Cerebral cortex - Allocortex,59_Siletti_Hippocampus.HiT.CA4-DGC_Human_2022
+Cerebral cortex - Allocortex,60_Siletti_Hippocampus.HiH.HiT.Sub_Human_2022
+Cerebral cortex - Allocortex,61_Siletti_Hippocampus.HiH.CA1_Human_2022
+Cerebral cortex - Allocortex,62_Siletti_Hippocampus.HiH.CA1-3_Human_2022
+Cerebral cortex - Allocortex,63_Siletti_Hippocampus.HiH.CA1-CA3_Human_2022
+Cerebral cortex - Allocortex,64_Siletti_Hippocampus.HiH.DG-CA4_Human_2022
+Cerebral cortex - Allocortex,65_Siletti_Hippocampus.HiB-RostralCA1-CA3_Human_2022
+Cerebral cortex - Allocortex,66_Siletti_Hippocampus.HiH.CA2-3_Human_2022
+Cerebral cortex - Allocortex,67_Siletti_Hippocampus.HiB.RostralCA1-2_Human_2022
+Cerebral cortex - Allocortex,68_Siletti_Hippocampus.HiB.RostralDG-CA4_Human_2022
+Cerebral cortex - Allocortex,69_Siletti_Hippocampus.HiB.RostralCA3_Human_2022
+Cerebral cortex - Periallocortex,9_Siletti_CerebralCortex.APH.MEC_Human_2022
+Cerebral cortex - Periallocortex,23_Siletti_CerebralCortex.FI_Human_2022
+Cerebral cortex - Periallocortex,25_Siletti_CerebralCortex.CgGrs.A29-A30_Human_2022
+Cerebral cortex - Periallocortex,28_Siletti_CerebralCortex.AG.LEC_Human_2022
+Cerebral cortex - Periallocortex,38_Siletti_CerebralCortex.PRG.A35-A36_Human_2022
+Cerebral cortex - Periallocortex,39_Siletti_CerebralCortex.A35.A35r_Human_2022
+Cerebral nuclei,44_Siletti_CerebralNuclei.GP.Gpe_Human_2022
+Cerebral nuclei,45_Siletti_CerebralNuclei.CEN_Human_2022
+Cerebral nuclei,46_Siletti_CerebralNuclei.SEP_Human_2022
+Cerebral nuclei,47_Siletti_CerebralNuclei.Cla_Human_2022
+Cerebral nuclei,48_Siletti_CerebralNuclei.CMN_Human_2022
+Cerebral nuclei,49_Siletti_CerebralNuclei.SI_Human_2022
+Cerebral nuclei,50_Siletti_CerebralNuclei.BLN.BL_Human_2022
+Cerebral nuclei,51_Siletti_CerebralNuclei.BNST_Human_2022
+Cerebral nuclei,52_Siletti_CerebralNuclei.Pu_Human_2022
+Cerebral nuclei,53_Siletti_CerebralNuclei.GP.Gpi_Human_2022
+Cerebral nuclei,54_Siletti_CerebralNuclei.CaB_Human_2022
+Cerebral nuclei,55_Siletti_CerebralNuclei.BLN.BM_Human_2022
+Cerebral nuclei,56_Siletti_CerebralNuclei.NAC_Human_2022
+Cerebral nuclei,57_Siletti_CerebralNuclei.BLN.La_Human_2022
+Cerebral nuclei,58_Siletti_CerebralNuclei.GP.CMN.CoA_Human_2022
+Hypothalamus,70_Siletti_Hypothalamus.HTHma.MN_Human_2022
+Hypothalamus,71_Siletti_Hypothalamus.HTHpo.HTHso_Human_2022
+Hypothalamus,72_Siletti_Hypothalamus.HTHma.HTHtub_Human_2022
+Hypothalamus,73_Siletti_Hypothalamus.HTHso.HTHtub_Human_2022
+Hypothalamus,74_Siletti_Hypothalamus.HTHpo_Human_2022
+Hypothalamus,75_Siletti_Hypothalamus.HTHtub_Human_2022
+Hypothalamus,76_Siletti_Hypothalamus.HTHso_Human_2022
+Hypothalamus,77_Siletti_Hypothalamus.HTHma_Human_2022
+Thalamus,97_Siletti_Thalamus.PoN.LG_Human_2022
+Thalamus,98_Siletti_Thalamus.LNC.Pul_Human_2022
+Thalamus,99_Siletti_Thalamus.ANC_Human_2022
+Thalamus,100_Siletti_Thalamus.LNC.VLN_Human_2022
+Thalamus,101_Siletti_Thalamus.LNC.LP_Human_2022
+Thalamus,102_Siletti_Thalamus.ILN.PILN.CM.Pf_Human_2022
+Thalamus,103_Siletti_Thalamus.ETH_Human_2022
+Thalamus,104_Siletti_Thalamus.MNC.MD_Human_2022
+Thalamus,105_Siletti_Thalamus.STH_Human_2022
+Thalamus,106_Siletti_Thalamus.LNC.LP.VPL_Human_2022
+Thalamus,107_Siletti_Thalamus.PoN.MG_Human_2022
+Thalamus,108_Siletti_Thalamus.MNC.MD.Re_Human_2022
+Thalamus,109_Siletti_Thalamus.ILN.PILN.CM_Human_2022
+Thalamus,110_Siletti_Thalamus.LNC.VA_Human_2022
+Thalamus,111_Siletti_Thalamus.LNC.VPL_Human_2022
+Lobes,8_Siletti_CerebralCortex.MTG_Human_2022
+Lobes,11_Siletti_CerebralCortex.PPH.TH-TL_Human_2022
+Lobes,12_Siletti_CerebralCortex.STG_Human_2022
+Lobes,31_Siletti_CerebralCortex.FuGt.TF_Human_2022
+Lobes,34_Siletti_CerebralCortex.SOG.A19_Human_2022
+Lobes,35_Siletti_CerebralCortex.ITG_Human_2022
+Midbrain,78_Siletti_Midbrain.SN_Human_2022
+Midbrain,79_Siletti_Midbrain.SN-RN_Human_2022
+Midbrain,80_Siletti_Midbrain.PAG_Human_2022
+Midbrain,81_Siletti_Midbrain.IC_Human_2022
+Midbrain,82_Siletti_Midbrain.SC_Human_2022
+Midbrain,83_Siletti_Midbrain.PTR_Human_2022
+Midbrain,84_Siletti_Midbrain.PAG-DR_Human_2022
+Midbrain,85_Siletti_Midbrain.RN_Human_2022
+Cerebellum,41_Siletti_Cerebellum.CBV_Human_2022
+Cerebellum,42_Siletti_Cerebellum.CbDN_Human_2022
+Cerebellum,43_Siletti_Cerebellum.CBL_Human_2022
+Pons,90_Siletti_Pons.PnRF_Human_2022
+Pons,91_Siletti_Pons.PnEN_Human_2022
+Pons,92_Siletti_Pons.PN_Human_2022
+Pons,93_Siletti_Pons.XPnTg.DTg_Human_2022
+Pons,94_Siletti_Pons.PnRF.PB_Human_2022
+Pons,95_Siletti_Pons.PnAN_Human_2022
+Myelencephalon,86_Siletti_Myelencephalon.MoAN_Human_2022
+Myelencephalon,87_Siletti_Myelencephalon.MoRF-MoEN_Human_2022
+Myelencephalon,88_Siletti_Myelencephalon.PrCbN.IO_Human_2022
+Myelencephalon,89_Siletti_Myelencephalon.MoSR_Human_2022
+Spinal cord,96_Siletti_Spinalcord.Spc_Human_2022

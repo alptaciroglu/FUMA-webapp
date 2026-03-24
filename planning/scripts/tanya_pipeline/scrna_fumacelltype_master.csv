@@ -1,0 +1,92 @@
+ID,Tissue,Region,Developmental_Stage,FirstAuthor,Year_Published,Number of cells (before filtering),Number of cells (rounding),Sequencing technique,Number of donors,Number of female donors,Number of male donors,PMID,Title,Link,Species,Access date,Additional notes
+1,Brain,"Neocortex: parietal lobe, hippocampal formation, primary visual cortex, medial ganglionic eminence, caudal ganglionic eminence, orbitofrontal cortex, anterior cingulate cortex",Midgestational (22nd week post-fertilization human stage),Smith,2021,"118,647",~120k,Drop-seq,1,sex is unknown,sex in unknown,34161264,"Early role for a Na+,K+-ATPase (ATP1A3) in brain development",https://pubmed.ncbi.nlm.nih.gov/34161264/,Human,12/25/2023,
+,,"Neocortex: prefrontal cortex, temporal lobe, parietal lobe, primary visual cortex",Infant (7-month-old human stage),,,"51,878",~50k,,1,sex is unknown,sex in unknown,,,,,,
+2,Brain,White matter,Adult,Jakel,2019,"17.799 cells total
+6.591 are from humans",~7000 human cells,10x 3' v2,5,1,4,30747918,Altered human oligodendrocyte heterogeneity in multiple sclerosis,https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6544546/,Human,1/19/2024,
+3,Brain,entorhinal cortex,Adult,Leng,2021,"9,730",~10k,10x 3' v2,3,0,3,33432193,Molecular characterization of selectively vulnerable neurons in Alzheimer's disease,https://www.nature.com/articles/s41593-020-00764-7,Human,5/29/2024,
+,,superior frontal gyrus,,,,"12,646",~12k,10x 3' v2,3,0,3,,,,,,
+4,Brain,Cerebellum,"Prenatal (9 wpc, 10 wpc, 11 wpc, 12 wpc, 14 wpc, 17 wpc, 18 wpc, 20 wpc, 21 wpc) ",Aldinger,2021,"69,174",~69k,SPLiT-seq,13,6,7,34140698,Spatial and cell type transcriptional landscape of human cerebellar development,https://pubmed.ncbi.nlm.nih.gov/34140698/,Human,1/8/2024,
+5,Brain,"Neocortex: prefrontal cortex, primary motor cortex, parietal cortex, primary somatosensory cortex, temporal cortex, primary visual cortex",Prenaral (second trimester),Bhaduri,2021,"457,965",~450k,10x 3' v2,13,sex is unknown,sex in unknown,34616070,An atlas of cortical arealization identifies dynamic molecular signatures,https://pubmed.ncbi.nlm.nih.gov/34616070/,Human,1/8/2024,
+6,Brain,M1 (primary motor cortex),Adult,Bakken,2021,"20,490",~20k,10x 3' v3,2,1,1,34616062,"Comparative cellular analysis of motor cortex in human, marmoset and mouse",https://pubmed.ncbi.nlm.nih.gov/34616062/,Human,1/8/2024,
+7,Brain,Substantia nigra,Adult,Kamath,2022,"369,346",~370k,10x 3' v3,8,6,2,35513515,Single-cell genomic profiling of human dopamine neurons identifies a population that selectively degenerates in Parkinson's disease,https://pubmed.ncbi.nlm.nih.gov/35513515/,Human,5/30/2024,
+8,Brain,Prefrontal cortex (NFTs),Adult,Otero-Garcia,2022,"57,534",~58k,10x 3' v2 and 10x 3' v3,8,3,5,35882228,Molecular signatures underlying neurofibrillary tangle susceptibility in Alzheimer's disease.,https://europepmc.org/article/med/35882228,Human,1/17/2024,
+9,Brain,Dorsalateral prefrontal cortex,Adult,Ma,2022,"172,120",~170k,10x 3' v3,4,1,3,36007006,Molecular and cellular evolution of the primate dorsolateral prefrontal cortex,https://pubmed.ncbi.nlm.nih.gov/36007006/,Human,1/16/2024,
+10,Brain,MTG,Adult,Gabitto,2023,"164,053",~160k,10x 3',5,2,3,,Integrated multimodal cell atlas of Alzheimer’s disease,https://www.nature.com/articles/s41593-024-01774-5,Human,6/12/2023,
+11,Brain,"White matter from BA4, CB, and CSC",Adult,Seeker,2023,"45,528",~45k,10x 3' v3,20,10,10,37217978,"Brain matters: unveiling the distinct contributions of region, age, and sex to glia diversity and CNS function",https://pubmed.ncbi.nlm.nih.gov/37217978/,Human,1/16/2024,
+12,Brain,Frontal and Occipital cortex,Adult,Gittings,2023,"115,568",~100k,10x 3' v3,"12 (frontal cortex)
+10 (occipital cortex)","6 (frontal cortex)
+4 (occipital cortex)","6 (frontal cortex)
+6 (occipital cortex)",37466726,Cryptic exon detection and transcriptomic changes revealed in single-nuclei RNA sequencing of C9ORF72 patients spanning the ALS-FTD spectrum,https://pubmed.ncbi.nlm.nih.gov/37466726/,Human,1/22/2024,
+13,Brain,MTG,Adult,Jorstad,2023,"156,285",~150k,10x 3' v3,5,2,3,37824638,Comparative transcriptomics reveals human-specific cortical features,https://pubmed.ncbi.nlm.nih.gov/37824638/,Human,12/18/2023,
+,,,,,,,,Smart-seq,3,1,2,,,,,,
+14,Brain,10 regions,Adult,Siletti,2023,"3,369,399",~3.3m,10x 3' v3,3,0,"3
+From the paper: Brain specimens meeting these criteria, and for which whole brain hemispheres could be obtained for the current study, were quite rare and with a heavy male bias. Between 2018 and 2022, a total of 16 donors met these criteria, with only three female donors that ultimately failed quality control (QC) criteria. The three donors passing all exclusionary and QC criteria were male.",37824663,Transcriptomic diversity of cell types across the adult human brain,https://pubmed.ncbi.nlm.nih.gov/37824663/,Human,5/4/2023,
+15,Brain,"Neocortex: cortical plate, dorsolateral prefrontal cortex","18-19 GW, 23-24 GW, 0 year, 4-6 years, 14 years, 20-39 years",Zhu,2023,"45,549",~50k,10x multiome,12,7,5,37824614,Multi-omic profiling of the developing human cerebral cortex at the single-cell level,https://pubmed.ncbi.nlm.nih.gov/37824614/,Human,12/24/2023,
+16,Brain,Neocortex,Adult,Jorstad,2023,"1,155,822",~1.15m,10x 3' v3,5,2,"3 
+(Tissue samples from five individuals (3 males, 2 females, mean postmortem interval 12.8 hours, mean age 47 years, table S2) were used for snRNA-seq data generation.)",37824655,Transcriptomic cytoarchitecture reveals principles of human neocortex organization,https://pubmed.ncbi.nlm.nih.gov/37824655/,Human,1/10/2024,
+,,,,,,"49,417",~49k,Smart-seq,,,,,,,,,
+17,Brain,Mostly cortex and ganglionic eminences,"2nd trimester, 3rd trimester, 0-1 years, 1-2 years, 2-4 years, 4-10 years, 10-20 years, and Adult",Velmeshev,2023,"413,682 (before filteirng)
+358,663 (after filtering)
+709,372 (after integrating)",~350k & ~700k (after integration),"10x 3' v2, 10x 3' v3,  and 10x multiome","2nd trimester: 30
+3rd trimester: 13
+0-1 year: 11
+1-2 year: 6
+2-4 year: 8
+4-10 year: 8
+10-20 year: 15
+Adult: 13","2nd trimester: 11F
+3rd trimester: 8F
+0-1 year: 5F
+1-2 year: 2F
+2-4 year: 4F
+4-10 year: 1F
+10-20 year: 7F
+Adult: 7F","2nd trimester: 19M
+3rd trimester: 5M
+0-1 year: 6M
+1-2 year: 4M
+2-4 year: 4M
+4-10 year: 7M
+10-20 year: 8M
+Adult: 6M",37824647,Single-cell analysis of prenatal and postnatal human cortical development,https://pubmed.ncbi.nlm.nih.gov/37824647/,Human,12/19/2023,
+18,Brain,Cerebellum,"7 wpc, 8 wpc, 9 wpc, 11 wpc, 17 wpc, 20 wpc, newborn, infant, toddler, and adult",Sepp,2023,"163,283 (normal. Human)",~160k,10x 3' v2 and 10x 3' v3,27,11,16,38029793,Cellular development and evolution of the mammalian cerebellum,https://pubmed.ncbi.nlm.nih.gov/38029793/,Human,12/21/2023,
+19,Brain,Caudate nucleus and putamen,Adult,Phan,2024,44449,~45k,10x 3' v3,12,6,6,38296993,Single nuclei transcriptomics in human and non-human primate striatum in opioid use disorder,https://pubmed.ncbi.nlm.nih.gov/38296993/,Human,5/30/2024,
+20,Brain,Entorhinal Cortex and Ganglionic Eminence,"Fetal, Infant, Toddler, Teen, Adult",Nascimento,NA,"153,005",~150k,10x 3' v3,12,5,7,NA,NA,https://cellxgene.cziscience.com/collections/cae8bad0-39e9-4771-85a7-822b0e06de9f,Human,1/23/2024,
+21,Brain,Cerebellum,Child,TorresFlores,NA,"1,346",~1k,10x 3' v3,2,2,0,NA,NA,https://cellxgene.cziscience.com/collections/10bf5c50-8d85-4c5f-94b4-22c1363d9f31,Human,1/10/2024,
+22,Brain,Neocortex,"First trimester, Second trimester, Third trimester, Infancy, Adolescence",Wang,2024,"232,328",~230k,10x multiome,27,13,14,NA,Molecular and cellular dynamics of the developing human neocortex at single-cell resolution,https://www.nature.com/articles/s41586-024-08351-7,Human,2/10/2025,
+23,Brain,"Cerebellum, Diencephalon, Forebrain, Head, Hindbrain, Medulla, Midbrain, Pons, Telencephalon",First trimester,Braun,2023,"1,665,937",~1.6M,"10x 3' v2', '10x 3' v3'",26,-,-,37824650,Comprehensive cell atlas of the first-trimester developing human brain,https://www.science.org/doi/10.1126/science.adf1226,Human,2/10/2025,
+24,Brain,"primary visual cortex, insular cortex, Brodmann (1909) area 4",Adult,Rexach,2024,"98,794 normal",~100k,"10x 3' v2', '10x 3' v3'",10 (normal),-,-,39265576,Cross-disorder and disease-specific pathways in dementia revealed by single-cell genomics,https://www.sciencedirect.com/science/article/pii/S0092867424009103?via%3Dihub,Human,2/11/2025,
+25,Brain,"Brodmann (1909) area 9, Brodmann (1909) area 7, Brodmann (1909) area 17",Adult,Dharshini,2024,"113,755 normal",~100k,"10x 3' v3', '10x 3' v2', 'Drop-seq'",15 (normal),-,-,-,Molecular Signatures of Resilience to Alzheimer’s Disease in Neocortical Layer 4 Neurons,https://www.biorxiv.org/content/10.1101/2024.11.03.621787v1,Human,2/11/2025,
+26,Brain,"dorsal motor nucleus of vagus nerve, primary visual cortex, prefrontal cortex, primary motor cortex, medial globus pallidus",Adult,N.M.,2024,"445,297 normal",~500k,10x 3' v3,24 (donors without disease),-,-,39580497,A multi-region single nucleus transcriptomic atlas of Parkinson’s disease,https://www.nature.com/articles/s41597-024-04117-y,Human,2/12/2025,
+27,Brain,"caudate nucleus, hippocampal formation, dorsolateral prefrontal cortex, anterior cingulate cortex","infant stage, 4-year-old stage, 6-year-old stage, 14-year-old stage, 20-year-old stage, 39-year-old stage, 61-year-old stage, 62-year-old stage",Clarence,2025,"101,924",~100k,10x multiome,10,5,5,39962241,Multiomic single-cell profiling identifies critical regulators of postnatal brain,https://www.nature.com/articles/s41588-025-02083-8,Human,2/12/2025,
+28,Brain,hypothalamus,Adult,Tadross,2025,"433,369",~430k,10x 3' v3,,,,39910307,A comprehensive spatio-cellular map of the human hypothalamus,https://www.nature.com/articles/s41586-024-08504-8,Human,2/12/2025,
+29,Brain,Prefrontal cortex,Adult,Pan,2024,"31,971",~30k,10x 3' v3,8,3,5,39217398,Deciphering glial contributions to CSF1R-related disorder via single-nuclear transcriptomic profiling: a case study,https://actaneurocomms.biomedcentral.com/articles/10.1186/s40478-024-01853-5,Human,2/13/2025,
+30,Brain,hippocampus,Adult,Xu,2023,"676,845",~650k,10x 3' v3 and 10x 3' v3,17,5,12,38134877,Automatic cell-type harmonization and integration across Human Cell Atlas datasets,https://www.sciencedirect.com/science/article/pii/S0092867423013120?via%3Dihub,Human,3/12/2025,
+31,Brain,Neocortex,Adult,Johansen,2023,"377,188",~380k,10x 3' v3,78,32,46,37824649,Interindividual variation in human cortical cell type abundance and expression,https://pubmed.ncbi.nlm.nih.gov/37824649/,Human,3/12/2025,
+32,Brain,"brain, cerebellum","AdultCerebellum, FetalBrain",Han,2020,"7324 from AdultCerebellum
+13625 from FetalBrain",~20k,microwell-seq,"1 donor for AdultCerebellum
+4 donors for FetalBrain",-,-,32214235,Construction of a human cell landscape at single-cell level,https://pubmed.ncbi.nlm.nih.gov/32214235/,Human,2/9/2025,
+33,Brain,"cerebellum, telencephalon",prenatal,Cao,2020,"263245 from cerebellum
+412920 from telencephalon",~700k,sci-RNA-seq3,"5 donors cerebellum
+7 donors telencephalon","2 female donors cerebellum
+2 female donors telencephalon","3 male donors cerebellum
+7 male donors telencephalon",33184181,A human cell atlas of fetal gene expression,https://pubmed.ncbi.nlm.nih.gov/33184181/,Human,3/9/2025,
+34,Brain,"brain meninx
+forebrain meninges
+meninx",prenatal (5 to 13 weeks),Linnarsson,-,"156,726",~150k,10x 3' v3,13,7,6,-,-,https://github.com/linnarsson-lab/human-meninges-development,Human,3/9/2025,
+35,Brain,dorsolateral prefrontal cortex,adult,Yang,-,21155,~20k,10x multiome,10 (normal),6 (normal),4 (normal),-,-,-,Human,3/9/2025,
+36,Brain,dorsolateral prefrontal cortex,adult,Lee,2024,"121,078 (normal)",~120k,10x 3' v3,26 (normal),17 (normal),9 (normal),-,Single-cell atlas of transcriptomic vulnerability across multiple neurodegenerative and neuropsychiatric diseases,https://www.medrxiv.org/content/10.1101/2024.10.31.24316513v1,Human,3/9/2025,cohort RADC
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+*Excluded datasets,Reasons for exclusion,,,,,,,,,,,,,,,,
+Chan et al. 2021,This is a lung cancer focus study,,,,,,,,,,,,,,,,
+Salcher et al. 2022,This is a lung cancer focus study,,,,,,,,,,,,,,,,
+Tian et al. 2023,single-cell methylation data,,,,,,,,,,,,,,,,
+Chien et al. 2023,methylation data,,,,,,,,,,,,,,,,
+He et al. 2024,organoid data,,,,,,,,,,,,,,,,
+Mannens et al. 2024,single-cell ATAC seq datasets,,,,,,,,,,,,,,,,
+Vinsland et al. ,organoid data,,,,,,,,,,,,,,,,
